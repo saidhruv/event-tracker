@@ -10,7 +10,7 @@ import Tile from '../../components/Tile';
 import EventList from '../../constants/EventList';
 import styles from './styles';
 
-const TrackingViewScreen = () => {
+const TrackingViewScreen = ({navigation}) => {
   const [count] = useContext(CounterContext);
   const [userTrackedEvents, changeUserTrackedEvents] = useState([]);
 
@@ -84,7 +84,18 @@ const TrackingViewScreen = () => {
               thumbnail={item.EventThumbnail}
               location={item.Location}
               entry={item.EntryFee}
-              onPress={() => {}}
+              onPress={() =>
+                navigation.navigate('EventDetailsCompoundScreen', {
+                  screen: 'EventDetailsScreen',
+                  params: {
+                    id: item.id,
+                    name: item.EventName,
+                    thumbnail: item.EventThumbnail,
+                    location: item.Location,
+                    entry: item.EntryFee,
+                  },
+                })
+              }
               showRemoveButton
               onRemovePress={() => removeTracking(index)}
               drag={drag}
