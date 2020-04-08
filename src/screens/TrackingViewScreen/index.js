@@ -11,12 +11,20 @@ import EventList from '../../constants/EventList';
 import styles from './styles';
 
 const TrackingViewScreen = ({navigation}) => {
-  const [count] = useContext(CounterContext);
+  const [count, setCount] = useContext(CounterContext);
   const [userTrackedEvents, changeUserTrackedEvents] = useState([]);
 
   useEffect(() => {
     getFilteredData();
   }, [count]);
+
+  const increment = () => {
+    setCount(count + 1);
+  };
+
+  const decrement = () => {
+    setCount(count - 1);
+  };
 
   const getFilteredData = async () => {
     try {
@@ -40,6 +48,7 @@ const TrackingViewScreen = ({navigation}) => {
       const newDataOrder = data.map((event) => event.id);
       existingUsers[currentUser] = newDataOrder;
       await AsyncStorage.setItem('users', JSON.stringify(existingUsers));
+      increment();
     } catch (error) {
       console.log(error);
     }
@@ -58,6 +67,7 @@ const TrackingViewScreen = ({navigation}) => {
       existingUsers[currentUser] = userTrackedEventIds;
       changeUserTrackedEvents(userTrackedEventsOrder);
       await AsyncStorage.setItem('users', JSON.stringify(existingUsers));
+      decrement();
     } catch (error) {
       console.log(error);
     }
